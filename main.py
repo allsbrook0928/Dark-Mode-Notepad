@@ -17,8 +17,8 @@ class Window(QWidget):
         self.setLayout(layout)
 
         self.resize(853, 480)
-
-        def save(self): # Attempt to write a save func, fix later
+        
+        def save(self): # Attempt to write a save func, fix
 
             name = QFileDialog.getSaveFileName(self, "Save File")
             file = open(name, "w")
@@ -26,10 +26,6 @@ class Window(QWidget):
             file.write(text)
             file.close()
 
-        saveFile = QAction("&Save File", self)
-        saveFile.setShortcut("Ctrl+S")
-        saveFile.setStatusTip("Save File")
-        # saveFile.triggered.connect(save(self)) **This is an attempt to write a save func, fix later
 
         self.textarea = QPlainTextEdit(self)
         self.textarea.setPlaceholderText("Enter text...")
@@ -42,7 +38,7 @@ class Window(QWidget):
         self.toolbutton.setText("Save")
         self.toolbutton.setFixedSize(60, 30)
         self.toolbutton.setStyleSheet("background-color: #565656; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
-        self.toolbutton.addAction(saveFile)
+        self.toolbutton.clicked.connect(self.save)
         layout.addWidget(self.toolbar)
         layout.addWidget(self.toolbutton)
 
