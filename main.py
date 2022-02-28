@@ -18,13 +18,12 @@ class Window(QWidget):
 
         self.resize(853, 480)
         
-        def save(self): # Attempt to write a save func, fix
+        def save(): # Attempt to write a save func, fix
 
             name = QFileDialog.getSaveFileName(self, "Save File")
             file = open(name, "w")
             text = self.textarea
             file.write(text)
-            file.close()
 
 
         self.textarea = QPlainTextEdit(self)
@@ -33,14 +32,15 @@ class Window(QWidget):
         self.textarea.setFont(QFont("Open Sans", 14))
         layout.addWidget(self.textarea)
 
-        self.toolbar = QToolBar()
-        self.toolbutton = QToolButton()
-        self.toolbutton.setText("Save")
-        self.toolbutton.setFixedSize(60, 30)
-        self.toolbutton.setStyleSheet("background-color: #565656; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
-        self.toolbutton.clicked.connect(self.save)
-        layout.addWidget(self.toolbar)
-        layout.addWidget(self.toolbutton)
+        toolbar = QToolBar()
+        savebutton = QToolButton()
+        savebutton.setText("Save")
+        savebutton.setFixedSize(60, 30)
+        savebutton.setStyleSheet("background-color: #565656; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        savebutton.clicked.connect(save)
+
+        layout.addWidget(toolbar)
+        layout.addWidget(savebutton)
 
         
 
