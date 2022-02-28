@@ -1,4 +1,3 @@
-from cProfile import label
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -17,7 +16,7 @@ class Window(QWidget):
         self.setLayout(layout)
 
         self.resize(853, 480)
-        
+
         self.textarea = QPlainTextEdit(self)
         self.textarea.setPlaceholderText("Enter text...")
         self.textarea.setStyleSheet("color: #FFFFFF")
