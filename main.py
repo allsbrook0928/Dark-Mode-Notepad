@@ -16,7 +16,7 @@ class Window(QWidget):
         super(Window, self).__init__()
         self.setWindowTitle("Dark Mode Notepad")
 
-        self.setStyleSheet("background-color: #232323")
+        self.setStyleSheet("background-color: #232323; font-size: 18px; font-family: Fira Mono, Open Sans")
 
         layout = QGridLayout()
         self.setLayout(layout)
@@ -40,14 +40,17 @@ class Window(QWidget):
         def open_file():
 
             filename = QFileDialog.getOpenFileName(self, "Save File", path, "*.txt")
-            f = open(filename[0], "r")
 
-            with f:
-                data = f.read()
-                textarea.setText(data)
+            try:
+                f = open(filename[0], "r")
 
-            self.setWindowTitle(f"Dark Mode Notepad - {filename[0]}")
+                with f:
+                    data = f.read()
+                    textarea.setText(data)
 
+                self.setWindowTitle(f"Dark Mode Notepad - {filename[0]}")
+            except FileNotFoundError:
+                print("File not found.")
         def change_bg():
 
             red = "background-color: #5E0000"
@@ -59,35 +62,45 @@ class Window(QWidget):
             pink = "background-color: #550055"
 
             colors = [red, orange, yellow, green, blue, purple, pink]
+            color = random.choice(colors)
 
-            self.setStyleSheet(random.choice(colors))
+            self.setStyleSheet(f"{color}; font-size: 18px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            savebutton.setStyleSheet(f"{color}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            openbutton.setStyleSheet(f"{color}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            colorchange.setStyleSheet(f"{color}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            resetbgbutton.setStyleSheet(f"{color}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
         
         def reset_bg():
 
             reset = "background-color: #232323"
-            self.setStyleSheet(reset)
+            self.setStyleSheet(f"{reset}; font-size: 18px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            savebutton.setStyleSheet(f"{reset}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            openbutton.setStyleSheet(f"{reset}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            colorchange.setStyleSheet(f"{reset}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
+            resetbgbutton.setStyleSheet(f"{reset}; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
 
         toolbar = QToolBar()
         savebutton = QToolButton()
         savebutton.setText("Save")
-        savebutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        savebutton.setStyleSheet("background-color: #232323; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
         savebutton.clicked.connect(save)
 
         openbutton = QToolButton()
         openbutton.setText("Open")
-        openbutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        openbutton.setStyleSheet("background-color: #232323; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
         openbutton.clicked.connect(open_file)
 
         colorchange = QToolButton()
         colorchange.setText("Change Background Color")
-        colorchange.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        colorchange.setStyleSheet("background-color: #232323; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
         colorchange.clicked.connect(change_bg)
 
         resetbgbutton = QToolButton()
         resetbgbutton.setText("Reset the Background Color")
-        resetbgbutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        resetbgbutton.setStyleSheet("background-color: #232323; font-size: 14px; font-family: Fira Mono, Open Sans; color: #FFFFFF")
         resetbgbutton.clicked.connect(reset_bg)
 
+        #layout.addWidget(menubar)
         layout.addWidget(toolbar)
         toolbar.addWidget(savebutton)
         toolbar.addWidget(openbutton)
