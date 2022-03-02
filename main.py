@@ -27,8 +27,13 @@ class Window(QWidget):
             filename = QFileDialog.getSaveFileName(self, "Save File", path, "(*.txt)")
             f = open(filename[0], "w")
 
+            data = textarea.toHtml()
 
-        textarea = QPlainTextEdit(self)
+            with f:
+                f.write(data)
+
+
+        textarea = QTextEdit(self)
         textarea.setPlaceholderText("Enter text...")
         textarea.setStyleSheet("color: #FFFFFF")
         textarea.setFont(QFont("Open Sans", 14))
