@@ -2,6 +2,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
+import os
+
+user = os.getenv("username")
+path = os.path.join(f"C:\\Users\\{user}\\Desktop")
 
 class Window(QWidget):
 
@@ -18,29 +22,33 @@ class Window(QWidget):
 
         self.resize(853, 480)
         
-        def save(self): # Attempt to write a save func, fix
+        def save(): # Attempt to write a save func, fix
 
-            name = QFileDialog.getSaveFileName(self, "Save File")
-            file = open(name, "w")
-            text = self.textarea
-            file.write(text)
-            file.close()
+            filename = QFileDialog.getSaveFileName(self, "Save File", path, "(*.txt)")
+            try:
+                f = open(filename[0], "w")
 
+                data = textarea.toHtml()
 
-        self.textarea = QPlainTextEdit(self)
-        self.textarea.setPlaceholderText("Enter text...")
-        self.textarea.setStyleSheet("color: #FFFFFF")
-        self.textarea.setFont(QFont("Open Sans", 14))
-        layout.addWidget(self.textarea)
+                with f:
+                    f.write(data)
+                    
+            except FileNotFoundError:
+                    print("File not found.")
 
-        self.toolbar = QToolBar()
-        self.toolbutton = QToolButton()
-        self.toolbutton.setText("Save")
-        self.toolbutton.setFixedSize(60, 30)
-        self.toolbutton.setStyleSheet("background-color: #565656; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
-        self.toolbutton.clicked.connect(self.save)
-        layout.addWidget(self.toolbar)
-        layout.addWidget(self.toolbutton)
+        toolbar = QToolBar()
+        savebutton = QToolButton()
+        savebutton.setText("Save")
+        savebutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        savebutton.clicked.connect(save)
+        layout.addWidget(toolbar)
+        layout.addWidget(savebutton)
+
+        textarea = QTextEdit(self)
+        textarea.setPlaceholderText("Enter text...")
+        textarea.setStyleSheet("color: #FFFFFF")
+        textarea.setFont(QFont("Open Sans", 14))
+        layout.addWidget(textarea)
 
         
 
