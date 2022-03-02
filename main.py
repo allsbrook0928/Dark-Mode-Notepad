@@ -24,7 +24,7 @@ class Window(QWidget):
         
         def save(): # Attempt to write a save func, fix
 
-            filename = QFileDialog.getSaveFileName(self, "Save File", path, "(*.txt)")
+            filename = QFileDialog.getSaveFileName(self, "Save File", path, "*.txt")
             try:
                 f = open(filename[0], "w")
 
@@ -38,12 +38,14 @@ class Window(QWidget):
 
         def open_file():
 
-            filename = QFileDialog.getOpenFileName(self, "Save File", path, "(*.txt)")
+            filename = QFileDialog.getOpenFileName(self, "Save File", path, "*.txt")
             f = open(filename[0], "r")
 
             with f:
                 data = f.read()
                 textarea.setText(data)
+
+            self.setWindowTitle(f"Dark Mode Notepad - {filename[0]}")
 
         toolbar = QToolBar()
         savebutton = QToolButton()
