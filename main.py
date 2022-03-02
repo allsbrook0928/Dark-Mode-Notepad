@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
 import os
+import random
 
 user = os.getenv("username")
 path = os.path.join(f"C:\\Users\\{user}\\Desktop")
@@ -22,7 +23,7 @@ class Window(QWidget):
 
         self.resize(853, 480)
         
-        def save(): # Attempt to write a save func, fix
+        def save():
 
             filename = QFileDialog.getSaveFileName(self, "Save File", path, "*.txt")
             try:
@@ -47,6 +48,25 @@ class Window(QWidget):
 
             self.setWindowTitle(f"Dark Mode Notepad - {filename[0]}")
 
+        def change_bg():
+
+            red = "background-color: #5E0000"
+            orange = "background-color: #5E3100"
+            yellow = "background-color: #5E5A00"
+            green = "background-color: #005E03"
+            blue = "background-color: #00395E"
+            purple = "background-color: #42005E"
+            pink = "background-color: #550055"
+
+            colors = [red, orange, yellow, green, blue, purple, pink]
+
+            self.setStyleSheet(random.choice(colors))
+        
+        def reset_bg():
+
+            reset = "background-color: #232323"
+            self.setStyleSheet(reset)
+
         toolbar = QToolBar()
         savebutton = QToolButton()
         savebutton.setText("Save")
@@ -58,18 +78,27 @@ class Window(QWidget):
         openbutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
         openbutton.clicked.connect(open_file)
 
+        colorchange = QToolButton()
+        colorchange.setText("Change Background Color")
+        colorchange.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        colorchange.clicked.connect(change_bg)
+
+        resetbgbutton = QToolButton()
+        resetbgbutton.setText("Reset the Background Color")
+        resetbgbutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        resetbgbutton.clicked.connect(reset_bg)
+
         layout.addWidget(toolbar)
         toolbar.addWidget(savebutton)
         toolbar.addWidget(openbutton)
+        toolbar.addWidget(colorchange)
+        toolbar.addWidget(resetbgbutton)
 
         textarea = QTextEdit(self)
         textarea.setPlaceholderText("Enter text...")
         textarea.setStyleSheet("color: #FFFFFF")
         textarea.setFont(QFont("Open Sans", 14))
         layout.addWidget(textarea)
-
-        
-
 
 app = QApplication(sys.argv)
 
