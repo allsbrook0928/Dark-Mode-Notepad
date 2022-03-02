@@ -2,6 +2,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 import sys
+import os
+
+user = os.getenv("username")
+path = os.path.join(f"C:\\Users\\{user}\\Desktop")
 
 class Window(QWidget):
 
@@ -20,17 +24,15 @@ class Window(QWidget):
         
         def save(): # Attempt to write a save func, fix
 
-            name = QFileDialog.getSaveFileName(self, "Save File")
-            file = open(name, "w")
-            text = self.textarea
-            file.write(text)
+            filename = QFileDialog.getSaveFileName(self, "Save File", path, "(*.txt)")
+            f = open(filename[0], "w")
 
 
-        self.textarea = QPlainTextEdit(self)
-        self.textarea.setPlaceholderText("Enter text...")
-        self.textarea.setStyleSheet("color: #FFFFFF")
-        self.textarea.setFont(QFont("Open Sans", 14))
-        layout.addWidget(self.textarea)
+        textarea = QPlainTextEdit(self)
+        textarea.setPlaceholderText("Enter text...")
+        textarea.setStyleSheet("color: #FFFFFF")
+        textarea.setFont(QFont("Open Sans", 14))
+        layout.addWidget(textarea)
 
         toolbar = QToolBar()
         savebutton = QToolButton()
