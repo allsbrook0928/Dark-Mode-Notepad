@@ -25,29 +25,30 @@ class Window(QWidget):
         def save(): # Attempt to write a save func, fix
 
             filename = QFileDialog.getSaveFileName(self, "Save File", path, "(*.txt)")
-            f = open(filename[0], "w")
+            try:
+                f = open(filename[0], "w")
 
-            data = textarea.toHtml()
+                data = textarea.toHtml()
 
-            with f:
-                f.write(data)
+                with f:
+                    f.write(data)
+                    
+            except FileNotFoundError:
+                    print("File not found.")
 
+        toolbar = QToolBar()
+        savebutton = QToolButton()
+        savebutton.setText("Save")
+        savebutton.setStyleSheet("background-color: #434343; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
+        savebutton.clicked.connect(save)
+        layout.addWidget(toolbar)
+        layout.addWidget(savebutton)
 
         textarea = QTextEdit(self)
         textarea.setPlaceholderText("Enter text...")
         textarea.setStyleSheet("color: #FFFFFF")
         textarea.setFont(QFont("Open Sans", 14))
         layout.addWidget(textarea)
-
-        toolbar = QToolBar()
-        savebutton = QToolButton()
-        savebutton.setText("Save")
-        savebutton.setFixedSize(60, 30)
-        savebutton.setStyleSheet("background-color: #565656; font-size: 14px; font-family: Open Sans; color: #FFFFFF")
-        savebutton.clicked.connect(save)
-
-        layout.addWidget(toolbar)
-        layout.addWidget(savebutton)
 
         
 
